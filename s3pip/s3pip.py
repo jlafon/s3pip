@@ -1,15 +1,22 @@
 import os
 import mimetypes
+import sys
 import urlparse
-import pip
 from StringIO import StringIO
-from pip.log import logger
-from pip._vendor.requests.adapters import BaseAdapter, HTTPAdapter
-from pip._vendor.requests.structures import CaseInsensitiveDict
-from pip._vendor.requests import Response
-from pip.download import PipSession
-from pip.download import LocalFSResponse
+
 from boto.s3.connection import S3Connection
+
+try:
+    import pip
+    from pip._vendor.requests.adapters import BaseAdapter, HTTPAdapter
+    from pip._vendor.requests.structures import CaseInsensitiveDict
+    from pip._vendor.requests import Response
+    from pip.log import logger
+    from pip.download import PipSession
+    from pip.download import LocalFSResponse
+except ImportError as err:
+    sys.stderr.write('Error: pip<=1.5 is required ({})'.format(err))
+    exit()
 
 
 class S3RawResponse(LocalFSResponse):
