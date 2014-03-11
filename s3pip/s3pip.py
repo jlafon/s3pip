@@ -4,8 +4,6 @@ import sys
 import urlparse
 from StringIO import StringIO
 
-from boto.s3.connection import S3Connection
-
 try:
     import pip
     from pip._vendor.requests.adapters import BaseAdapter, HTTPAdapter
@@ -16,7 +14,11 @@ try:
     from pip.download import LocalFSResponse
 except ImportError as err:
     sys.stderr.write('Error: pip<=1.5 is required ({})'.format(err))
-    exit()
+
+try:
+    from boto.s3.connection import S3Connection
+except ImportError as err:
+    sys.stderr.write('Error: boto is required ({})'.format(err))
 
 
 class S3RawResponse(LocalFSResponse):
