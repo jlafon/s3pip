@@ -83,8 +83,13 @@ def request(self, method, url, *args, **kwargs):
     self.mount('http://', S3Adapter())
     return super(PipSession, self).request(method, url, *args, **kwargs)
 
-bucket_name = os.getenv('S3_PIP_BUCKET_NAME')
-if bucket_name is not None:
-    pip.download.PipSession.request = request
 
-pip.main()
+def main():
+    bucket_name = os.getenv('S3_PIP_BUCKET_NAME')
+    if bucket_name is not None:
+        pip.download.PipSession.request = request
+
+    pip.main()
+
+if __name__ == '__main__':
+    main()
